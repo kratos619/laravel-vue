@@ -47367,7 +47367,7 @@ var render = function() {
             "li",
             {
               staticClass: "page-item",
-              class: [{ disabled: !_vm.pagination.prev_page_url }]
+              class: [{ disabled: !_vm.pagination.pre_page_url }]
             },
             [
               _c(
@@ -47386,7 +47386,28 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(0)
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: !_vm.pagination.next_page_url }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.fetchArticles(_vm.pagination.next_page_url)
+                    }
+                  }
+                },
+                [_vm._v("Next")]
+              )
+            ]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -47405,18 +47426,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "page-item" }, [
-      _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-        _vm._v("Next")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -47536,6 +47546,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 //import Vue from 'vue'
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47561,7 +47573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var vm = this;
-      page_url = page_url || 'api/articles';
+      page_url = page_url || '/api/articles';
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
@@ -47575,8 +47587,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var pagination = {
         current_page: meta.current_page,
         last_page: meta.last_page,
-        next_page_url: links.next_page_url,
-        pre_page_url: links.pre_page_url
+        next_page_url: links.next,
+        pre_page_url: links.prev
       };
 
       this.pagination = pagination;
