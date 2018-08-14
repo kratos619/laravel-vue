@@ -1,6 +1,16 @@
 <template>
     <div>
         <h2>article</h2>
+        <nav aria-label="Page navigation example">
+  <ul class="pagination">
+      <!-- disable if there is no previous page -->
+    <li v-bind:class="[{disabled: !pagination.prev_page_url}]" class="page-item">
+        <a class="page-link" href="#" @click="fetchArticles(pagination.pre_page_url)">Previous</a>
+        </li>
+    
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
         <div class="card card-body m-3" v-for="article in articles" v-bind:key="article.id">
             <h3>{{ article.title }}</h3>
             <p class="lead">{{article.body}}</p>
@@ -28,12 +38,27 @@ export default {
     this.fetchArticles();
   },
   methods: {
-    fetchArticles() {
-      fetch('api/articles')
+    fetchArticles(page_url) {
+      let vm = this;
+      page_url = page_url || 'api/articles';
+      fetch(page_url)
         .then(res => res.json())
         .then(res => {
           this.articles = res.data;
-        });
+          vm.makePagination(res.meta, res.links);
+        })
+        .catch(err => console.log(err));
+    },
+
+    makePagination(meta, links) {
+      let pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next_page_url,
+        pre_page_url: links.pre_page_url
+      };
+
+      this.pagination = pagination;
     }
   }
 };

@@ -47361,6 +47361,35 @@ var render = function() {
     [
       _c("h2", [_vm._v("article")]),
       _vm._v(" "),
+      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+        _c("ul", { staticClass: "pagination" }, [
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: !_vm.pagination.prev_page_url }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.fetchArticles(_vm.pagination.pre_page_url)
+                    }
+                  }
+                },
+                [_vm._v("Previous")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]),
+      _vm._v(" "),
       _vm._l(_vm.articles, function(article) {
         return _c(
           "div",
@@ -47376,7 +47405,18 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "page-item" }, [
+      _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+        _vm._v("Next")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -47486,6 +47526,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //import Vue from 'vue'
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47507,14 +47557,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    fetchArticles: function fetchArticles() {
+    fetchArticles: function fetchArticles(page_url) {
       var _this = this;
 
-      fetch('api/articles').then(function (res) {
+      var vm = this;
+      page_url = page_url || 'api/articles';
+      fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
         _this.articles = res.data;
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
       });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next_page_url,
+        pre_page_url: links.pre_page_url
+      };
+
+      this.pagination = pagination;
     }
   }
 });
