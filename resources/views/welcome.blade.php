@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+           <meta name="csrf-token" content="{{ csrf_token() }}" > 
+           <script>window.Laravel={ csrfToken: '{{csrf_token()}}'}</script>
         <title>Larticak</title>
 
         <!-- Fonts -->
@@ -15,6 +16,14 @@
         </style>
     </head>
     <body>
-        <h1>test</h1>
+        <div id="app">
+            <div class="container">
+                <asticles>
+
+                </asticles>
+            </div>
+        </div>
+
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
