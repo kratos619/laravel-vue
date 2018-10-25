@@ -12,7 +12,7 @@
     <button class="btn btn-success" type="submit">Submit</button>
   </form>
   
-        <nav aria-label="Page navigation example">
+ <nav aria-label="Page navigation example">
   
   <ul class="pagination">
       <!-- disable if there is no previous page -->
